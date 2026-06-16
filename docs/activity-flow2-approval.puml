@@ -1,0 +1,42 @@
+@startuml Activity_Flow2_Approval
+' ============================================================
+' Activity Diagram - Flow 2: Persetujuan Booking & Pembuatan Tagihan
+' Render: https://www.plantuml.com/plantuml  atau ekstensi PlantUML di VS Code
+' ============================================================
+
+title Flow 2 - Persetujuan Booking & Pembuatan Tagihan
+
+|#Plum|Pemilik Kos|
+start
+:Buka dashboard admin;
+
+|#LightGreen|Sistem|
+:Tampilkan daftar permohonan pending;
+
+|#Plum|Pemilik Kos|
+:Tinjau detail permohonan;
+if (Setujui booking?) then (tolak)
+  :Klik "Tolak";
+  |#LightGreen|Sistem|
+  :Update status booking = rejected;
+  stop
+else (setujui)
+  :Klik "Setujui";
+endif
+
+|#LightGreen|Sistem|
+:Mulai transaksi (atomic);
+:Update booking = ongoing;
+:Update kamar = terisi;
+repeat
+  :Generate tagihan bulanan;
+repeat while (Masih ada bulan\nsesuai durasi sewa?) is (ya)
+->tidak;
+:Commit transaksi;
+:Tampilkan notifikasi sukses;
+
+|#Plum|Pemilik Kos|
+:Lihat konfirmasi berhasil;
+stop
+
+@enduml

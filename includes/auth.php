@@ -32,8 +32,35 @@ function require_penghuni($redir = '/pdw-ucp/public/login.php') {
   if (!is_penghuni()) { set_flash('error', 'Akses ditolak.'); redirect($redir); }
 }
 
+/**
+ * Auto-seed akun demo bila tabel users masih kosong.
+ * Dipanggil sebelum login — jadi tidak perlu file setup.php manual.
+ * Aman dijalankan berkali-kali (hanya seed saat benar-benar kosong).
+ */
+function ensure_demo_users() {
+  global $pdo;
+  try {
+    $count = (int)$pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+    if ($count > 0) return;
+
+    $demo = [
+      ['Pemilik Kos',  'owner@kos.id',    'owner123',    '0812-1000-0001', 'owner',    'Jl. Mawar No. 1'],
+      ['Andi Saputra', 'penghuni@kos.id', 'pengguna123', '0812-2000-0002', 'penghuni', 'Bantul'],
+      ['Budi Hartono', 'budi@kos.id',     'pengguna123', '0812-2000-0003', 'penghuni', 'Sleman'],
+      ['Citra Dewi',   'citra@kos.id',    'pengguna123', '0812-2000-0004', 'penghuni', 'Yogyakarta'],
+    ];
+    $stmt = $pdo->prepare("INSERT INTO users (nama, email, password_hash, telepon, role, alamat) VALUES (?,?,?,?,?,?)");
+    foreach ($demo as $u) {
+      $stmt->execute([$u[0], $u[1], password_hash($u[2], PASSWORD_BCRYPT), $u[3], $u[4], $u[5]]);
+    }
+  } catch (Throwable $e) {
+    // Diamkan — kalau tabel belum ada, biar error koneksi/schema yang muncul di tempat lain.
+  }
+}
+
 function attempt_login($email, $password) {
   global $pdo;
+  ensure_demo_users();
   $stmt = $pdo->prepare("SELECT id, password_hash, role, nama FROM users WHERE email = ? LIMIT 1");
   $stmt->execute([$email]);
   $u = $stmt->fetch();

@@ -93,12 +93,12 @@ include __DIR__ . '/../../includes/header.php';
           <form method="post" class="flex-1" data-confirm="Verifikasi pembayaran ini?">
             <?= csrf_input() ?>
             <input type="hidden" name="id" value="<?= $p['id'] ?>"><input type="hidden" name="action" value="verify">
-            <button class="btn btn-success w-full">✓ Verifikasi</button>
+            <button class="btn btn-success w-full"><?= icon('check') ?> Verifikasi</button>
           </form>
           <form method="post" class="flex-1" data-confirm="Tolak pembayaran ini?">
             <?= csrf_input() ?>
             <input type="hidden" name="id" value="<?= $p['id'] ?>"><input type="hidden" name="action" value="reject">
-            <button class="btn btn-danger w-full">✕ Tolak</button>
+            <button class="btn btn-danger w-full"><?= icon('x') ?> Tolak</button>
           </form>
         </div>
         <?php endif; ?>

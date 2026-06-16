@@ -57,7 +57,7 @@ include __DIR__ . '/../includes/header.php';
 
   <?php if ($success_kode): ?>
     <div class="card p-8 mt-4 text-center">
-      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 grid place-items-center text-emerald-600 text-3xl">✓</div>
+      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 grid place-items-center text-emerald-600"><?= icon('check','w-8 h-8') ?></div>
       <h1 class="text-2xl font-bold mt-4">Permohonan Berhasil Dikirim</h1>
       <p class="text-slate-500 mt-2">Permohonan sewa Anda sedang menunggu persetujuan pemilik kos.</p>
       <div class="mt-5 inline-block px-5 py-3 rounded-xl bg-brand-50 border border-brand-100">
@@ -108,7 +108,7 @@ include __DIR__ . '/../includes/header.php';
           <textarea name="catatan" rows="3" class="input mt-1" placeholder="Mis. saya seorang mahasiswa…"><?= e($_POST['catatan'] ?? '') ?></textarea>
         </div>
         <div class="col-span-2 pt-2">
-          <button class="btn btn-cta w-full">🏠 Ajukan Sewa</button>
+          <button class="btn btn-cta w-full"><?= icon('home') ?> Ajukan Sewa</button>
         </div>
       </form>
     </div>

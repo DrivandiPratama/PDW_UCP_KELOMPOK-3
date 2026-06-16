@@ -83,14 +83,14 @@ include __DIR__ . '/../../includes/header.php';
             <div class="text-sm font-semibold text-amber-800">Permohonan Sewa Baru</div>
             <div class="text-xs text-amber-700"><?= $stats['booking_pending'] ?> menunggu persetujuan</div>
           </div>
-          <span class="text-amber-700 font-bold">→</span>
+          <span class="text-amber-700"><?= icon('arrow','w-5 h-5') ?></span>
         </a>
         <a href="pembayaran.php" class="flex items-center justify-between p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition">
           <div>
             <div class="text-sm font-semibold text-blue-800">Verifikasi Pembayaran</div>
             <div class="text-xs text-blue-700"><?= $stats['pembayaran_pending'] ?> bukti pending</div>
           </div>
-          <span class="text-blue-700 font-bold">→</span>
+          <span class="text-blue-700"><?= icon('arrow','w-5 h-5') ?></span>
         </a>
       </div>
     </div>

@@ -1,0 +1,51 @@
+@startuml Activity_Flow1_Booking
+' ============================================================
+' Activity Diagram - Flow 1: Pengajuan Sewa Kamar (Booking)
+' Render: https://www.plantuml.com/plantuml  atau ekstensi PlantUML di VS Code
+' ============================================================
+
+title Flow 1 - Pengajuan Sewa Kamar (Booking)
+
+|#LightBlue|Calon Penghuni|
+start
+:Buka katalog kamar;
+:Filter / cari kamar;
+:Lihat detail kamar;
+
+|#LightGreen|Sistem|
+if (Kamar tersedia?) then (tidak)
+  :Tampilkan status "Terisi";
+  stop
+else (ya)
+endif
+
+|Calon Penghuni|
+:Klik "Ajukan Sewa";
+
+|#LightGreen|Sistem|
+if (Sudah login?) then (belum)
+  |Calon Penghuni|
+  :Login / Registrasi akun;
+else (sudah)
+endif
+
+|Calon Penghuni|
+:Isi formulir booking\n(nama, tgl mulai, durasi);
+:Submit permohonan;
+
+|#LightGreen|Sistem|
+:Validasi input & cek double-booking;
+if (Valid?) then (tidak)
+  |Calon Penghuni|
+  :Lihat pesan error;
+  stop
+else (ya)
+endif
+:Simpan booking (status = pending);
+:Generate kode BK-YYYY-NNN;
+
+|Calon Penghuni|
+:Lihat kode booking;
+stop
+
+@enduml

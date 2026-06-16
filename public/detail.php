@@ -55,7 +55,7 @@ include __DIR__ . '/../includes/header.php';
 
       <?php if ($kamar['status'] === 'tersedia'): ?>
         <a href="booking.php?kamar=<?= $kamar['id'] ?>" class="btn btn-cta w-full mt-5">
-          🏠 Ajukan Sewa Sekarang
+          <?= icon('home') ?> Ajukan Sewa Sekarang
         </a>
       <?php else: ?>
         <button disabled class="btn w-full mt-5 bg-slate-200 text-slate-500 cursor-not-allowed">Kamar Sedang Terisi</button>

@@ -36,7 +36,7 @@ include __DIR__ . '/../includes/header.php';
 ?>
 
 <!-- Hero -->
-<section class="bg-gradient-to-br from-brand-500 to-brand-700 text-white">
+<section class="bg-brand-600 text-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
     <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight max-w-2xl">Temukan kos nyaman, langsung pesan online.</h1>
     <p class="mt-3 text-white/85 max-w-xl">Lihat detail kamar, fasilitas, dan harga. Ajukan sewa & upload bukti bayar tanpa perlu datang langsung.</p>
@@ -88,7 +88,7 @@ include __DIR__ . '/../includes/header.php';
 
   <?php if (!$rooms): ?>
     <div class="text-center py-16 text-slate-500">
-      <div class="text-5xl opacity-30 mb-2">∅</div>
+      <div class="mx-auto w-12 h-12 mb-3 text-slate-300"><?= icon('search','w-12 h-12') ?></div>
       <p>Tidak ada kamar yang cocok dengan filter Anda.</p>
     </div>
   <?php else: ?>
