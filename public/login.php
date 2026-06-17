@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../includes/auth.php';
 
+// Pastikan akun demo tersedia begitu halaman login dibuka (jalan sekali saat DB kosong).
+ensure_demo_users();
+
 if (is_logged_in()) redirect(is_owner() ? 'admin/' : 'index.php');
 
 $err = '';
