@@ -30,7 +30,7 @@ include __DIR__ . '/../../includes/header.php';
           <tr>
             <td>
               <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white grid place-items-center text-xs font-bold"><?= e(strtoupper(substr($u['nama'],0,1))) ?></div>
+                <div class="w-9 h-9 rounded-full bg-brand-600 text-white grid place-items-center text-xs font-bold"><?= e(strtoupper(substr($u['nama'],0,1))) ?></div>
                 <div><div class="font-semibold"><?= e($u['nama']) ?></div></div>
               </div>
             </td>

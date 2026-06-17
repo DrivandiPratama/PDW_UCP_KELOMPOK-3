@@ -49,7 +49,7 @@ include __DIR__ . '/../../includes/header.php';
         <?php endfor; ?>
       </select>
       <button class="btn btn-primary">Filter</button>
-      <a href="javascript:print()" class="btn btn-secondary no-print">🖨 Print</a>
+      <a href="javascript:print()" class="btn btn-secondary no-print"><?= icon('printer') ?> Print</a>
     </form>
   </div>
 

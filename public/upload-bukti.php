@@ -47,7 +47,7 @@ include __DIR__ . '/../includes/header.php';
 
   <?php if ($ok): ?>
     <div class="card p-8 mt-4 text-center">
-      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 grid place-items-center text-emerald-600 text-3xl">✓</div>
+      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 grid place-items-center text-emerald-600"><?= icon('check','w-8 h-8') ?></div>
       <h1 class="text-2xl font-bold mt-4">Bukti Terkirim</h1>
       <p class="text-slate-500 mt-2">Pemilik kos akan memverifikasi pembayaran Anda. Status akan berubah menjadi <strong>Lunas</strong> setelah disetujui.</p>
       <a href="tagihan.php" class="btn btn-primary mt-6">Lihat Tagihan Saya</a>
@@ -94,7 +94,7 @@ include __DIR__ . '/../includes/header.php';
         <textarea name="catatan" rows="2" class="input mt-1" placeholder="Mis. transfer via BCA…"></textarea>
       </div>
 
-      <button class="btn btn-cta w-full">📤 Upload Bukti Pembayaran</button>
+      <button class="btn btn-cta w-full"><?= icon('upload') ?> Upload Bukti Pembayaran</button>
     </form>
   </div>
   <?php endif; ?>

@@ -100,12 +100,12 @@ include __DIR__ . '/../../includes/header.php';
             <form method="post" class="inline" data-confirm="Setujui permohonan ini?">
               <?= csrf_input() ?>
               <input type="hidden" name="id" value="<?= $b['id'] ?>"><input type="hidden" name="action" value="approve">
-              <button class="btn btn-success">✓ Setujui</button>
+              <button class="btn btn-success"><?= icon('check') ?> Setujui</button>
             </form>
             <form method="post" class="inline" data-confirm="Tolak permohonan ini?">
               <?= csrf_input() ?>
               <input type="hidden" name="id" value="<?= $b['id'] ?>"><input type="hidden" name="action" value="reject">
-              <button class="btn btn-danger">✕ Tolak</button>
+              <button class="btn btn-danger"><?= icon('x') ?> Tolak</button>
             </form>
           <?php elseif ($b['status'] === 'ongoing'): ?>
             <form method="post" class="inline" data-confirm="Tandai sewa selesai?">

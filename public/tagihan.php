@@ -103,7 +103,7 @@ include __DIR__ . '/../includes/header.php';
             <td><span class="badge badge-<?= e($t['status']) ?>"><?= e($t['status']) ?></span></td>
             <td class="text-right">
               <?php if ($t['status'] === 'belum'): ?>
-                <a href="upload-bukti.php?tagihan=<?= $t['id'] ?>" class="btn btn-cta px-4 py-2 text-sm">📤 Upload Bukti</a>
+                <a href="upload-bukti.php?tagihan=<?= $t['id'] ?>" class="btn btn-cta px-4 py-2 text-sm"><?= icon('upload') ?> Upload Bukti</a>
               <?php endif; ?>
             </td>
           </tr>

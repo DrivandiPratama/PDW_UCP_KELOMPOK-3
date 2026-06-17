@@ -47,12 +47,7 @@ Detail tanggung jawab tiap anggota: lihat [`docs/tim-assignment.md`](docs/tim-as
 5. **(Opsional) Import data demo kamar/booking/pengumuman**:
    - Import `sql/seed.sql` (data demo — kamar, booking, tagihan, pengumuman)
 
-6. **Generate akun demo** dengan password yang valid:
-   - Buka browser ke: **http://localhost/PDW-UCP/public/setup.php**
-   - Pastikan semua akun tampil dengan tanda ✓
-   - ⚠️ **HAPUS file `public/setup.php`** segera setelah selesai (alasan keamanan)
-
-7. **Sesuaikan konfigurasi (opsional)** di `config/database.php`:
+6. **Sesuaikan konfigurasi (opsional)** di `config/database.php`:
    ```php
    const DB_HOST = 'localhost';
    const DB_NAME = 'kos_indekos';
@@ -60,7 +55,12 @@ Detail tanggung jawab tiap anggota: lihat [`docs/tim-assignment.md`](docs/tim-as
    const DB_PASS = '';     // default XAMPP: kosong
    ```
 
-8. **Buka aplikasi**: **http://localhost/PDW-UCP/public/**
+7. **Buka aplikasi**: **http://localhost/PDW-UCP/public/**
+
+> **Akun demo dibuat otomatis.** Saat pertama kali membuka halaman login (jika tabel
+> `users` masih kosong), sistem otomatis men-seed 4 akun demo dengan password ter-hash
+> bcrypt. **Tidak perlu file setup manual** dan tidak perlu dihapus — aman dijalankan
+> di device baru manapun. Tinggal login pakai akun di bawah.
 
 ---
 
@@ -148,8 +148,7 @@ PDW-UCP/
 │   ├── pengumuman.php           # List pengumuman
 │   ├── tagihan.php              # Billing summary penghuni
 │   ├── upload-bukti.php         # Upload bukti pembayaran
-│   ├── setup.php                # ⚠️ One-time setup (HAPUS setelah pakai)
-│   └── admin/                   # 🛠️ Owner Dashboard
+│   └── admin/                   # Owner Dashboard
 │       ├── index.php            # Dashboard utama
 │       ├── kamar.php            # List & CRUD kamar
 │       ├── kamar-form.php       # Form tambah/edit kamar
@@ -228,10 +227,6 @@ Dua diagram UML disediakan dalam bentuk HTML **siap-cetak ke PDF**:
 
 ## 🐛 Troubleshooting
 
-### 403 Forbidden saat akses install
-- Gunakan **`public/setup.php`** (bukan `sql/install-users.php`)
-- Folder `sql/` memang di-block oleh `.htaccess` (security by design)
-
 ### Database connection failed
 - Pastikan MySQL aktif di XAMPP
 - Cek nama database `kos_indekos` sudah dibuat di phpMyAdmin
@@ -251,8 +246,13 @@ Dua diagram UML disediakan dalam bentuk HTML **siap-cetak ke PDF**:
 - Cek log di `xampp/apache/logs/error.log`
 
 ### Login gagal padahal email & password benar
-- Pastikan sudah jalankan `public/setup.php` minimal sekali untuk generate bcrypt hash
-- Hash yang ada di `seed.sql` adalah placeholder dan **tidak akan berfungsi tanpa setup.php**
+- Akun demo dibuat otomatis saat tabel `users` kosong. Kalau tabel sudah ada data
+  (mis. dari import `seed.sql` versi lama), hapus isi tabel `users` lalu buka ulang
+  halaman login agar auto-seed berjalan:
+  ```sql
+  DELETE FROM users;
+  ```
+- Pastikan `schema.sql` sudah diimport sehingga tabel `users` tersedia.
 
 ---
 

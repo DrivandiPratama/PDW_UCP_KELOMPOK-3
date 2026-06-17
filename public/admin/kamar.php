@@ -32,7 +32,7 @@ include __DIR__ . '/../../includes/header.php';
       <h1 class="text-2xl font-bold">Kelola Kamar</h1>
       <p class="text-sm text-slate-500 mt-1">CRUD data kamar: tambah, edit, hapus.</p>
     </div>
-    <a href="kamar-form.php" class="btn btn-primary">+ Tambah Kamar</a>
+    <a href="kamar-form.php" class="btn btn-primary"><?= icon('plus') ?> Tambah Kamar</a>
   </div>
 
   <div class="card mt-5 overflow-hidden">

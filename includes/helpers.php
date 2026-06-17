@@ -8,6 +8,28 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 // Escape output (XSS protection)
 function e($s) { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
 
+/**
+ * Inline SVG icon (Heroicons-style, stroke based). Pengganti emoji.
+ * Pemakaian: <?= icon('home') ?> atau <?= icon('check', 'w-5 h-5') ?>
+ */
+function icon($name, $class = 'w-4 h-4') {
+  $paths = [
+    'home'    => '<path d="M3 12l9-9 9 9M5 10v10h14V10"/>',
+    'upload'  => '<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 9l5-5 5 5M12 4v12"/>',
+    'check'   => '<path d="m5 12 5 5L20 7"/>',
+    'x'       => '<path d="M6 6l12 12M18 6 6 18"/>',
+    'printer' => '<path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/>',
+    'plus'    => '<path d="M12 5v14m-7-7h14"/>',
+    'search'  => '<path d="m21 21-5-5m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>',
+    'inbox'   => '<path d="M22 12h-6l-2 3h-4l-2-3H2M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/>',
+    'edit'    => '<path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>',
+    'trash'   => '<path d="M4 7h16M10 11v6m4-6v6M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/>',
+    'arrow'   => '<path d="M5 12h14m-6-6 6 6-6 6"/>',
+  ];
+  $p = $paths[$name] ?? '';
+  return '<svg class="' . $class . '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">' . $p . '</svg>';
+}
+
 // Format rupiah
 function rp($n) { return 'Rp ' . number_format((float)$n, 0, ',', '.'); }
 

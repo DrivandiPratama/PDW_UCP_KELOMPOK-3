@@ -1,0 +1,51 @@
+@startuml Activity_Flow3_Payment
+' ============================================================
+' Activity Diagram - Flow 3: Pembayaran & Verifikasi
+' Render: https://www.plantuml.com/plantuml  atau ekstensi PlantUML di VS Code
+' ============================================================
+
+title Flow 3 - Pembayaran & Verifikasi
+
+|#LightBlue|Penghuni|
+start
+:Buka "Tagihan Saya";
+:Pilih tagihan belum lunas;
+:Klik "Upload Bukti Bayar";
+:Isi nominal, metode, pilih foto bukti;
+:Submit pembayaran;
+
+|#LightGreen|Sistem|
+:Validasi MIME & ukuran file;
+if (File valid?) then (tidak)
+  |#LightBlue|Penghuni|
+  :Lihat pesan error;
+  stop
+else (ya)
+endif
+:Simpan file ke uploads/;
+:Insert ke pembayaran (status = pending);
+
+|#Plum|Pemilik Kos|
+:Buka dashboard - Pembayaran;
+:Tinjau bukti pembayaran;
+if (Bukti valid?) then (tolak)
+  :Klik "Tolak";
+  |#LightGreen|Sistem|
+  :Update pembayaran = rejected;
+  stop
+else (verifikasi)
+  :Klik "Verifikasi";
+endif
+
+|#LightGreen|Sistem|
+:Mulai transaksi (atomic);
+:Update pembayaran = verified;
+:Update tagihan = lunas;
+:Commit transaksi;
+:Tampilkan notifikasi sukses;
+
+|#LightBlue|Penghuni|
+:Lihat status tagihan = lunas;
+stop
+
+@enduml

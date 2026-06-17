@@ -7,7 +7,7 @@
 -- Hash dihasilkan oleh password_hash('pengguna123', PASSWORD_BCRYPT)
 -- (Hash di bawah valid untuk dua password di atas)
 
---INSERT INTO users (nama, email, password_hash, telepon, role, alamat) VALUES
+
 
 INSERT INTO kamar (kode, tipe, ukuran_m2, fasilitas, harga_bulanan, status, foto_utama, deskripsi) VALUES
 ('K-101', 'Standar', 9.00,  'Kasur, lemari, meja belajar, kipas angin',                       750000,  'tersedia', 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800', 'Kamar standar nyaman untuk mahasiswa.'),
