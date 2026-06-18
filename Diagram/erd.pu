@@ -1,0 +1,88 @@
+@startuml Sistem_Manajemen_Kos_ERD
+!theme plain
+hide circle
+skinparam linetype ortho
+
+entity "users" as users {
+    * id : INT <<PK>>
+    --
+    * name : VARCHAR(100)
+    * email : VARCHAR(100)
+    * password : VARCHAR(255)
+    * role : ENUM('pemilik', 'penghuni')
+    * phone : VARCHAR(15)
+    * created_at : DATETIME
+}
+
+entity "kamar" as kamar {
+    * id : INT <<PK>>
+    --
+    * owner_id : INT <<FK>>
+    * name : VARCHAR(50)
+    * type : VARCHAR(50)
+    * price : DECIMAL(10,2)
+    * status : ENUM('tersedia', 'penuh')
+    * facilities : TEXT
+}
+
+entity "foto_kamar" as foto_kamar {
+    * id : INT <<PK>>
+    --
+    * kamar_id : INT <<FK>>
+    * photo_url : VARCHAR(255)
+}
+
+entity "booking" as booking {
+    * id : INT <<PK>>
+    --
+    * user_id : INT <<FK>>
+    * kamar_id : INT <<FK>>
+    * start_date : DATE
+    * duration_months : INT
+    * status : ENUM('pending', 'approved', 'rejected')
+    * created_at : DATETIME
+}
+
+entity "tagihan" as tagihan {
+    * id : INT <<PK>>
+    --
+    * booking_id : INT <<FK>>
+    * user_id : INT <<FK>>
+    * amount : DECIMAL(10,2)
+    * due_date : DATE
+    * status : ENUM('unpaid', 'paid', 'overdue')
+}
+
+entity "pembayaran" as pembayaran {
+    * id : INT <<PK>>
+    --
+    * tagihan_id : INT <<FK>>
+    * user_id : INT <<FK>>
+    * amount_paid : DECIMAL(10,2)
+    * proof_url : VARCHAR(255)
+    * paid_at : DATETIME
+    * status : ENUM('pending', 'verified', 'invalid')
+}
+
+entity "pengumuman" as pengumuman {
+    * id : INT <<PK>>
+    --
+    * owner_id : INT <<FK>>
+    * title : VARCHAR(150)
+    * content : TEXT
+    * created_at : DATETIME
+}
+
+' Relasi Kardinalitas Database
+users ||--o{ kamar : "mengelola"
+users ||--o{ booking : "melakukan"
+users ||--o{ tagihan : "menerima"
+users ||--o{ pembayaran : "membayar"
+users ||--o{ pengumuman : "menerbitkan"
+
+kamar ||--o{ foto_kamar : "memiliki"
+kamar ||--o{ booking : "dipesan"
+
+booking ||--o{ tagihan : "memiliki"
+tagihan ||--|| pembayaran : "diselesaikan_oleh"
+@endum

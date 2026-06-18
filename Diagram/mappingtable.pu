@@ -1,0 +1,32 @@
+@startuml Sistem_Manajemen_Kos_Mapping_Table
+left to right direction
+skinparam rectangleRoundCorner 10
+
+rectangle "MAPPING: USE CASE -> CLASS -> TABEL DATABASE" {
+    
+    rectangle "Use Case: Ajukan Sewa" as UC1 {
+        artifact "Method: submitBooking()" as M1
+        database "Tabel: booking" as T1
+    }
+    
+    rectangle "Use Case: Kelola Kamar & Foto" as UC2 {
+        artifact "Method: createKamar()\nMethod: uploadFoto()" as M2
+        database "Tabel: kamar\nTabel: foto_kamar" as T2
+    }
+    
+    rectangle "Use Case: Upload Bukti" as UC3 {
+        artifact "Method: uploadProof()" as M3
+        database "Tabel: pembayaran" as T3
+    }
+
+    rectangle "Use Case: Verifikasi & Lunas" as UC4 {
+        artifact "Method: verifyPayment()\nMethod: updateStatusTagihan()" as M4
+        database "Tabel: tagihan\nTabel: pembayaran" as T4
+    }
+}
+
+M1 --> T1
+M2 --> T2
+M3 --> T3
+M4 --> T4
+@endum

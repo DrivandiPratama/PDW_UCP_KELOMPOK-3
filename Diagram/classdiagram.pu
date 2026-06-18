@@ -1,0 +1,91 @@
+@startuml Sistem_Manajemen_Kos_Class
+skinparam classAttributeIconSize 0
+
+class User {
+    +int id
+    +string name
+    +string email
+    +string password
+    +string role
+    +string phone
+    +login()
+    +register()
+    +updateProfile()
+}
+
+class Kamar {
+    +int id
+    +int owner_id
+    +string name
+    +string type
+    +float price
+    +string status
+    +text facilities
+    +createKamar()
+    +updateKamar()
+    +deleteKamar()
+    +getAvailable()
+}
+
+class FotoKamar {
+    +int id
+    +int kamar_id
+    +string photo_url
+    +uploadFoto()
+    +deleteFoto()
+}
+
+class Booking {
+    +int id
+    +int user_id
+    +int kamar_id
+    +date start_date
+    +int duration_months
+    +string status
+    +submitBooking()
+    +approveBooking()
+    +cancelBooking()
+}
+
+class Tagihan {
+    +int id
+    +int booking_id
+    +int user_id
+    +float amount
+    +date due_date
+    +string status
+    +generateBilling()
+    +updateStatusTagihan()
+}
+
+class Pembayaran {
+    +int id
+    +int tagihan_id
+    +int user_id
+    +float amount_paid
+    +string proof_url
+    +datetime paid_at
+    +string status
+    +uploadProof()
+    +verifyPayment()
+}
+
+class Pengumuman {
+    +int id
+    +int owner_id
+    +string title
+    +text content
+    +datetime created_at
+    +createPengumuman()
+    +updatePengumuman()
+    +deletePengumuman()
+}
+
+' Relasi Antar Class
+User "1" --> "0..*" Booking : "mengajukan"
+User "1" --> "0..*" Pengumuman : "membuat"
+Kamar "1" *-- "0..*" FotoKamar : "memiliki (Composition)"
+Kamar "1" --> "0..*" Booking : "menerima"
+Booking "1" --> "0..*" Tagihan : "menghasilkan"
+Tagihan "1" -- "1" Pembayaran : "melunasi lewat"
+@endum

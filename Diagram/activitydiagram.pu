@@ -1,0 +1,119 @@
+@startuml ERD_KosBoardingHouse
+!theme plain
+skinparam linetype ortho
+skinparam EntityFontName Helvetica
+skinparam EntityBackgroundColor #F8F8F4
+skinparam EntityBorderColor #AAAAAA
+skinparam ArrowColor #555555
+skinparam ArrowFontColor #666666
+skinparam ArrowFontSize 11
+hide circle
+hide empty methods
+
+' ===== ENTITAS =====
+
+entity "Users" as Users {
+  * id <<PK>>
+  --
+  nama  
+  email  
+  password_hash 
+  telepon  
+  role  
+  alamat 
+  foto  
+  rea  
+  created_at 
+}
+
+entity "Kamar" as Kamar {
+  * id <<PK>>
+  --
+  nama 
+  tipe 
+  ukuran_m2 
+  fasilitas 
+  harga_bulanan 
+  status
+  foto_utama 
+  deskripsi 
+  created_at 
+}
+
+entity "foto_kamar" as FotoKamar {
+  * id <<PK>>
+  --
+  kamar_id <<FK>>
+  path 
+}
+
+entity "Booking" as Booking {
+  * id <<PK>>
+  --
+  user_id <<FK>>
+  kamar_id <<FK>>
+  kode_booking 
+  nama_lengkap  
+  telepon 
+  email  
+  tanggal_mulai 
+  durasi_bulan 
+  catatan 
+  status 
+  created_at 
+  approved_at 
+}
+
+entity "Tagihan" as Tagihan {
+  * id <<PK>>
+  --
+  booking_id <<FK>>
+  user_id <<FK>>
+  kamar_id <<FK>>
+  periode 
+  nominal 
+  due_date 
+  status 
+  created_at 
+}
+
+entity "Pembayaran" as Pembayaran {
+  * id <<PK>>
+  --
+  user_id <<FK>>
+  tagihan_id <<FK>>
+  booking_id <<FK>>
+  nominal 
+  metode 
+  bukti_path 
+  status 
+  catatan 
+  created_at 
+  verified_at 
+  verified_by 
+}
+
+entity "Pengumuman" as Pengumuman {
+  * id <<PK>>
+  --
+  created_by <<FK>>
+  judul 
+  isi 
+  kategori 
+  created_at 
+}
+
+' ===== RELASI =====
+
+Users       ||--o{ Booking    : "melakukan"
+Booking     ||--|| Kamar      : "memesan"
+Kamar       ||--o{ FotoKamar  : "memiliki"
+Booking     ||--|| Tagihan    : "menghasilkan"
+Tagihan     ||--|| Users      : "menagih"
+Tagihan     ||--|| Kamar      : "menagih"
+Pembayaran  ||--|| Tagihan    : "melunasi"
+Users       ||--o{ Pembayaran : "melakukan"
+Pembayaran  ||--|| Booking    : "mencatat"
+Users       ||--o{ Pengumuman : "membuat"
+
+@enduml

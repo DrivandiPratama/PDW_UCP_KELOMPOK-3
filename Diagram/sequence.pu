@@ -1,0 +1,57 @@
+@startuml Sistem_Manajemen_Kos_Sequence
+actor "Penghuni" as Tenant
+boundary "Front-End UI" as UI
+control "Back-End Controller" as Server
+database "Database MySQL" as DB
+actor "Pemilik Kos" as Owner
+
+== Proses Booking Kamar ==
+Tenant -> UI : Pilih kamar & klik 'Ajukan Sewa'
+UI -> Server : POST /api/booking (user_id, kamar_id, duration)
+activate Server
+Server -> DB : INSERT INTO booking STATUS='pending'
+activate DB
+DB --> Server : booking_id sukses dibuat
+deactivate DB
+Server --> UI : Response (Booking Berhasil Diajukan)
+deactivate Server
+UI --> Tenant : Tampilkan pesan menunggu persetujuan
+
+== Pemilik Approve & Generate Tagihan ==
+Owner -> UI : Buka Menu Persetujuan Booking
+UI -> Server : POST /api/booking/approve(booking_id)
+activate Server
+Server -> DB : UPDATE booking SET status='approved'
+Server -> DB : INSERT INTO tagihan (booking_id, amount, status='unpaid')
+activate DB
+DB --> Server : tagihan_id sukses dibuat
+deactivate DB
+Server --> UI : Status Diperbarui & Tagihan Terbit
+deactivate Server
+
+== Proses Upload Pembayaran ==
+Tenant -> UI : Akses Menu Tagihan & Upload Bukti Transfer
+UI -> Server : POST /api/pembayaran/upload (tagihan_id, file_bukti)
+activate Server
+Server -> DB : INSERT INTO pembayaran STATUS='pending'
+activate DB
+DB --> Server : data pembayaran disimpan
+deactivate DB
+Server --> UI : Bukti Pembayaran Berhasil Dikirim
+deactivate Server
+UI --> Tenant : Tampilkan status "Menunggu Verifikasi"
+
+== Pemilik Verifikasi Pembayaran ==
+Owner -> UI : Cek Bukti Transfer & Klik 'Verifikasi Lunas'
+UI -> Server : POST /api/payment/verify(pembayaran_id)
+activate Server
+Server -> DB : UPDATE pembayaran SET status='verified'
+Server -> DB : UPDATE tagihan SET status='paid'
+Server -> DB : UPDATE kamar SET status='penfull'
+activate DB
+DB --> Server : Semua tabel sukses diperbarui
+deactivate DB
+Server --> UI : Verifikasi Sukses
+deactivate Server
+UI --> Owner : Tampilkan notifikasi "Kamar Telah Terisi & Lunas"
+@endum

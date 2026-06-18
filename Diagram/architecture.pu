@@ -1,0 +1,86 @@
+@startuml Sistem_Manajemen_Kos_Architecture_Colored
+skinparam monochrome false
+skinparam shadowing false
+skinparam defaultFontName "Arial"
+skinparam ranksep 40
+skinparam nodesep 15
+
+' === Styling Global ===
+skinparam rectangle {
+    RoundCorner 15
+    BorderThickness 1.5
+}
+
+' === LAYER 1: PRESENTATION (BIRU) ===
+rectangle "Presentation Layer (Front-end)\nTailwind CSS + HTML/PHP" as Presentation #5C768D {
+    skinparam rectangle<<pres_box>> {
+        BackgroundColor #0C447C
+        BorderColor #185FA5
+        FontColor #B5D4F4
+    }
+    
+    rectangle "Halaman publik\nKatalog kamar" as Public <<pres_box>>
+    rectangle "Dashboard\nPenghuni" as TenantDash <<pres_box>>
+    rectangle "Dashboard\nPemilik Kos" as OwnerDash <<pres_box>>
+    rectangle "Form: Booking,\nUpload, Registrasi" as Form <<pres_box>>
+    
+    ' Mengatur agar kotak di dalam sejajar ke samping
+    Public -[hidden]right-> TenantDash
+    TenantDash -[hidden]right-> OwnerDash
+    OwnerDash -[hidden]right-> Form
+}
+
+' === LAYER 2: BUSINESS LOGIC (HIJAU) ===
+rectangle "Business Logic Layer (Back-end)\nPHP murni — Controller / Service" as Backend #6E8075 {
+    skinparam rectangle<<logic_box>> {
+        BackgroundColor #085041
+        BorderColor #0F6E56
+        FontColor #9FE1CB
+    }
+
+    ' Baris Pertama Service
+    rectangle "Auth Service" as Auth <<logic_box>>
+    rectangle "Room Service" as Room <<logic_box>>
+    rectangle "Booking Service" as Booking <<logic_box>>
+    rectangle "Payment Service" as Payment <<logic_box>>
+    
+    ' Baris Kedua Service
+    rectangle "Notification" as Notification <<logic_box>>
+    rectangle "Report Service" as Report <<logic_box>>
+    rectangle "Upload Handler" as Upload <<logic_box>>
+
+    ' Mengatur susunan baris pertama (horizontal)
+    Auth -[hidden]right-> Room
+    Room -[hidden]right-> Booking
+    Booking -[hidden]right-> Payment
+    
+    ' Mengatur susunan baris kedua (horizontal) dan posisinya di bawah baris pertama
+    Room -[hidden]down-> Notification
+    Notification -[hidden]right-> Report
+    Report -[hidden]right-> Upload
+}
+
+' === LAYER 3: DATA LAYER (COKLAT/AMBER) ===
+rectangle "Data Layer\nMySQL Database + File Storage" as Data #7C756B {
+    skinparam rectangle<<data_box>> {
+        BackgroundColor #633806
+        BorderColor #854F0B
+        FontColor #FAC775
+    }
+
+    rectangle "Database MySQL\nRelational" as DB <<data_box>>
+    rectangle "File Storage\nBukti pembayaran" as Storage <<data_box>>
+    rectangle "Session Storage\nAuth state" as Session <<data_box>>
+    rectangle "Log / Audit\nTrail" as Log <<data_box>>
+    
+    ' Mengatur agar kotak di dalam sejajar ke samping
+    DB -[hidden]right-> Storage
+    Storage -[hidden]right-> Session
+    Session -[hidden]right-> Log
+}
+
+' === Relasi Antar Layer dengan Teks ===
+Presentation <==> Backend : "  HTTP / Request  "
+Backend <==> Data : "  SQL / Query  "
+
+@enduml

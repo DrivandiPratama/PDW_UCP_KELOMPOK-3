@@ -1,0 +1,102 @@
+@startuml Sistem-Manajemen-Kos-Indekos
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+' === Desain Warna Tema Dark & Elegan ===
+skinparam usecase {
+    FontColor white
+    FontSize 12
+    BorderWidth 1.5
+}
+skinparam package {
+    BackgroundColor #ffffff
+    BorderColor #888888
+    FontColor white
+}
+skinparam actor {
+    FontColor black
+    BorderColor #2E6DB4
+    BackgroundColor #E6F1FB
+}
+skinparam arrow {
+    Color #555555
+    Thickness 1.2
+}
+
+' === Definisi Aktor ===
+actor "Calon Penghuni\n(publik)" as CP
+actor "Penghuni\n(login)"         as PH
+actor "Pemilik Kos\n(owner)"     as PK
+
+' Relasi Pewarisan Aktor: Penghuni adalah Calon Penghuni yang sudah login
+PH -up-|> CP
+
+rectangle "Sistem Manajemen Kos & Indekos" {
+
+    ' === Use Case: Calon Penghuni (Biru) ===
+    usecase "Lihat katalog kamar"  as UC1  #2E6DB4
+    usecase "Filter & cari kamar"  as UC2  #2E6DB4
+    usecase "Lihat detail kamar"   as UC3  #2E6DB4
+    usecase "Registrasi akun"      as UC4  #2E6DB4
+    usecase "Login"                as UC5  #2E6DB4
+    usecase "Ajukan sewa (Booking)" as UC6  #2E6DB4
+
+    ' === Use Case: Penghuni (Hijau) ===
+    usecase "Lihat tagihan saya"   as UC7  #2E8B57
+    usecase "Upload bukti bayar"   as UC8  #2E8B57
+    usecase "Lihat pengumuman"     as UC9  #2E8B57
+
+    ' === Use Case: Pemilik Kos / Owner (Oranye) ===
+    usecase "Kelola kamar (CRUD)"      as UC10 #B85C2A
+    usecase "Approve booking"          as UC11 #B85C2A
+    usecase "Verifikasi pembayaran"    as UC12 #B85C2A
+    usecase "Kelola penghuni"          as UC13 #B85C2A
+    usecase "Kelola pengumuman"        as UC14 #B85C2A
+    usecase "Lihat dashboard"          as UC15 #B85C2A
+    usecase "Lihat laporan keuangan"   as UC16 #B85C2A
+    usecase "Generate tagihan"         as UC17 #B85C2A
+}
+
+' === Hubungan Garis Aktor ke Use Case ===
+' Calon Penghuni (Hanya akses fitur publik & registrasi/login)
+CP --> UC1
+CP --> UC2
+CP --> UC3
+CP --> UC4
+CP --> UC5
+
+' Penghuni (Hanya fitur spesifik setelah masuk kos, fitur publik sudah diwarisi dari CP)
+PH --> UC6
+PH --> UC7
+PH --> UC8
+PH --> UC9
+
+' Pemilik Kos / Owner
+PK --> UC10
+PK --> UC11
+PK --> UC12
+PK --> UC13
+PK --> UC14
+PK --> UC15
+PK --> UC16
+PK --> UC17
+
+' === Relasi Proteksi Login (<<include>>) ===
+' Fitur Penghuni yang wajib lewat Login dahulu
+UC6 ..> UC5 : <<include>>
+UC7 ..> UC5 : <<include>>
+UC8 ..> UC5 : <<include>>
+UC9 ..> UC5 : <<include>>
+
+' Fitur Owner yang wajib lewat Login dahulu
+UC10 ..> UC5 : <<include>>
+UC11 ..> UC5 : <<include>>
+UC12 ..> UC5 : <<include>>
+UC13 ..> UC5 : <<include>>
+UC14 ..> UC5 : <<include>>
+UC15 ..> UC5 : <<include>>
+UC16 ..> UC5 : <<include>>
+UC17 ..> UC5 : <<include>>
+
+@enduml
